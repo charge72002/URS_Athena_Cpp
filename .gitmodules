@@ -1,0 +1,3 @@
+[submodule "athena-public-version"]
+	path = athena-public-version
+	url = https://github.com/PrincetonUniversity/athena-public-version
