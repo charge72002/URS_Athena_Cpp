@@ -1,0 +1,88 @@
+DEBUG:h5py._conv:Creating converter from 7 to 5
+DEBUG:h5py._conv:Creating converter from 5 to 7
+DEBUG:h5py._conv:Creating converter from 7 to 5
+DEBUG:h5py._conv:Creating converter from 5 to 7
+Your Athena++ distribution has now been configured with the following options:
+  Problem generator:          from_array
+  Coordinate system:          cartesian
+  Equation of state:          adiabatic
+  Riemann solver:             hlld
+  Magnetic fields:            ON
+  Number of scalars:          0
+  Special relativity:         OFF
+  General relativity:         OFF
+  Frame transformations:      OFF
+  Self-Gravity:               OFF
+  Super-Time-Stepping:        OFF
+  Debug flags:                OFF
+  Code coverage flags:        OFF
+  Linker flags:                 -lhdf5
+  Floating-point precision:   double
+  Number of ghost cells:      2
+  MPI parallelism:            OFF
+  OpenMP parallelism:         OFF
+  FFT:                        OFF
+  HDF5 output:                ON
+  HDF5 precision:             double
+  Compiler:                   g++
+  Compilation command:        g++  -O3 -std=c++11
+rm -rf /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/*
+rm -rf /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/bin/athena
+rm -rf *.gcov
+mkdir -p /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/bin/
+mkdir -p /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/
+g++  -O3 -std=c++11 -c src/parameter_input.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/parameter_input.o
+g++  -O3 -std=c++11 -c src/globals.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/globals.o
+g++  -O3 -std=c++11 -c src/main.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/main.o
+g++  -O3 -std=c++11 -c src/bvals/bvals.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/bvals.o
+g++  -O3 -std=c++11 -c src/bvals/bvals_refine.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/bvals_refine.o
+g++  -O3 -std=c++11 -c src/bvals/bvals_var.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/bvals_var.o
+g++  -O3 -std=c++11 -c src/bvals/bvals_base.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/bvals_base.o
+g++  -O3 -std=c++11 -c src/bvals/cc/outflow_cc.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/outflow_cc.o
+g++  -O3 -std=c++11 -c src/bvals/cc/flux_correction_cc.cpp -o /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/flux_correction_cc.o
+In file included from src/main.cpp:43:
+src/outputs/outputs.hpp:22:10: fatal error: hdf5.h: No such file or directory
+   22 | #include <hdf5.h>
+      |          ^~~~~~~~
+compilation terminated.
+make: *** [Makefile:101: /mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+Something bad happened
+Traceback (most recent call last):
+  File "/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/scripts/utils/athena.py", line 78, in make
+    subprocess.check_call(make_command, stdout=out_log)
+  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['make', '-j8', 'EXE_DIR:=/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/bin/', 'OBJ_DIR:=/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/']' returned non-zero exit status 2.
+Exception occurred
+Traceback (most recent call last):
+  File "/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/scripts/utils/athena.py", line 78, in make
+    subprocess.check_call(make_command, stdout=out_log)
+  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['make', '-j8', 'EXE_DIR:=/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/bin/', 'OBJ_DIR:=/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/']' returned non-zero exit status 2.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "run_tests.py", line 134, in main
+    module.prepare(**kwargs)
+  File "/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/scripts/tests/pgen/hdf5_reader_serial.py", line 41, in prepare
+    athena.make()
+  File "/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/scripts/utils/athena.py", line 82, in make
+    raise AthenaError('Return code {0} from command \'{1}\''
+scripts.utils.athena.AthenaError: Return code 2 from command 'make -j8 EXE_DIR:=/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/bin/ OBJ_DIR:=/mnt/c/Users/wongb/Documents/C_Scripts/athena-public-version-Copy/tst/regression/obj/'
+---> Error in scripts/tests/pgen/hdf5_reader_serial.py
+pgen.hdf5_reader_serial test: prepare(), run(), analyze() finished
+
+Results:
+    pgen.hdf5_reader_serial: failed -- unexpected failure in prepare() stage
+
+Summary: 0 out of 1 test passed
+
+Traceback (most recent call last):
+  File "run_tests.py", line 330, in <module>
+    main(**vars(args))
+  File "run_tests.py", line 198, in main
+    raise TestError()
+__main__.TestError

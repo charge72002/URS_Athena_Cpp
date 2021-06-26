@@ -1,0 +1,75 @@
+Results:
+    amr.amr_linwave: passed; time elapsed: 62.8 s
+    curvilinear.blast_cyl: passed; time elapsed: 57.1 s
+    curvilinear.blast_sph: passed; time elapsed: 82.7 s
+    diffusion.linear_wave3d: passed; time elapsed: 99.5 s
+    diffusion.linear_wave3d_sts: passed; time elapsed: 147 s
+    diffusion.resistive_diffusion: passed; time elapsed: 39.6 s
+    diffusion.resistive_diffusion_sts: passed; time elapsed: 40.9 s
+    diffusion.scalar_diffusion: passed; time elapsed: 42.5 s
+    diffusion.scalar_diffusion_sts: passed; time elapsed: 40.6 s
+    diffusion.thermal_attenuation: passed; time elapsed: 102 s
+    diffusion.thermal_attenuation_sts: passed; time elapsed: 68.3 s
+    diffusion.viscous_diffusion: passed; time elapsed: 42.9 s
+    diffusion.viscous_diffusion_sts: passed; time elapsed: 39.3 s
+    eos.eos_comparison: passed; time elapsed: 175 s
+    eos.eos_hdf5_table: failed -- unexpected failure in prepare() stage
+    eos.eos_mhd: passed; time elapsed: 76.4 s
+    eos.eos_riemann: passed; time elapsed: 66.3 s
+    eos.eos_table_test: passed; time elapsed: 129 s
+    fft.fft: failed -- unexpected failure in prepare() stage
+    gr.compile_kerr-schild: passed; time elapsed: 37 s
+    gr.compile_minkowski: passed; time elapsed: 36.3 s
+    gr.compile_schwarzschild: passed; time elapsed: 36.1 s
+    gr.hydro_shocks_hllc: passed; time elapsed: 38.1 s
+    gr.hydro_shocks_hlle: passed; time elapsed: 37.7 s
+    gr.hydro_shocks_hlle_no_transform: passed; time elapsed: 37.7 s
+    gr.hydro_shocks_llf: passed; time elapsed: 35.5 s
+    gr.hydro_shocks_llf_no_transform: passed; time elapsed: 34.5 s
+    gr.mhd_shocks_hlld: passed; time elapsed: 44.8 s
+    gr.mhd_shocks_hlle: passed; time elapsed: 41.9 s
+    gr.mhd_shocks_llf: passed; time elapsed: 41.5 s
+    grav.jeans_3d: failed -- unexpected failure in prepare() stage
+    grav.unstable_jeans_3d_fft: failed -- unexpected failure in prepare() stage
+    grav.unstable_jeans_3d_mg: failed -- unexpected failure in prepare() stage
+    hybrid.hybrid_linwave: failed -- unexpected failure in prepare() stage
+    hydro.hydro_linwave: passed; time elapsed: 377 s
+    hydro.sod_shock: passed; time elapsed: 55 s
+    hydro4.hydro_linwave_2d: passed; time elapsed: 558 s
+    hydro4.hydro_linwave_3d: passed; time elapsed: 313 s
+    mhd.cpaw: passed; time elapsed: 96.8 s
+    mhd.mhd_linwave: passed; time elapsed: 1.8e+03 s
+    mhd.rj2a_shock: passed; time elapsed: 117 s
+    mpi.mpi_linwave: failed -- unexpected failure in prepare() stage
+    omp.omp_linwave: passed; time elapsed: 166 s
+    outputs.all_outputs: failed -- unexpected failure in prepare() stage
+    pgen.hdf5_reader_parallel: failed -- unexpected failure in prepare() stage
+    pgen.hdf5_reader_serial: failed -- unexpected failure in prepare() stage
+    pgen.pgen_compile: passed; time elapsed: 287 s
+    scalars.mignone_meridional_1d: passed; time elapsed: 164 s
+    scalars.mignone_radial_1d: passed; time elapsed: 81.3 s
+    scalars.restart: passed; time elapsed: 33 s
+    scalars.sr_hydro_scalars: passed; time elapsed: 31.8 s
+    shearingbox.mhd_shwave: failed -- unexpected failure in prepare() stage
+    shearingbox.mri2d: passed; time elapsed: 119 s
+    shearingbox.ssheet: passed; time elapsed: 47.3 s
+    sr.hydro_convergence: passed; time elapsed: 40.6 s
+    sr.hydro_shocks_hllc: passed; time elapsed: 44.6 s
+    sr.hydro_shocks_hlle: passed; time elapsed: 39.7 s
+    sr.hydro_shocks_llf: passed; time elapsed: 37 s
+    sr.mhd_convergence: passed; time elapsed: 49.5 s
+    sr.mhd_shocks_hlld: passed; time elapsed: 40.8 s
+    sr.mhd_shocks_hlle: passed; time elapsed: 38 s
+    sr.mhd_shocks_llf: passed; time elapsed: 37.3 s
+    sr.sr_mhd_linwave: passed; time elapsed: 173 s
+    symmetry.hydro_linwave_aligned: passed; time elapsed: 112 s
+    turb.turb_3d: failed -- unexpected failure in prepare() stage
+
+Summary: 53 out of 65 tests passed
+
+Traceback (most recent call last):
+  File "run_tests.py", line 330, in <module>
+    main(**vars(args))
+  File "run_tests.py", line 198, in main
+    raise TestError()
+__main__.TestError

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <array>
 /*This is a directive. It talks to the preprocessor and executes before actual compilation.
   Essentially adds lines of code used in the package
   Common directives include:
@@ -25,14 +27,34 @@ using namespace std;
   argc is # of arguments, argv is argument vector with argc values
 */
 int main() {
-  cout << "Hello World!!\n";
+  string message = "Hello World\n";
+  cout << message;
   //returns 0 by default b/c this is the main method
 #define C 300000; //use #define for variables and methods
   cout << C ;
   cout << "\n";
   cout << MIN(2, 3);
   cout << "\n";
+  //"initializer list for C++11, will give additional warnings as necessary"
+  float x {999.10};
+  cout << x;
+  cout << "\n";
+  //Will auto-assign variable type
+  auto y {"999"};
+  cout << y;
+  cout << "\n";
+
+  vector<char> letter_vector{'a', 'b', 'c'};
+  for(char i : letter_vector){cout<<i;}
+  cout << "\n";
+  
+  array<char, 5> letter_array{'a', 'b', 'c', 'd', 'e'};
+  for(char i : letter_array){cout<<i;}
+  cout << "\n\n";
+  
+  for(int i {0}; i<10; i++){
+    cout << i;
+    cout << "\n";
+  }
   //count(0, 5);
 }
-
-
