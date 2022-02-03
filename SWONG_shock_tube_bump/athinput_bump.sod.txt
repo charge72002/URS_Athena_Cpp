@@ -7,7 +7,7 @@ configure = --prob=shock_tube
 problem_id  = Sod       # problem ID: basename of output filenames
 
 <output1>
-file_type   = tab       # Tabular data dump
+file_type   = hdf5       # Tabular data dump
 variable    = prim      # variables to be output
 data_format = %12.5e    # Optional data format string
 dt          = 0.01      # time increment between outputs
@@ -56,7 +56,9 @@ eos_file_type   = auto  # Specify EOS table file type [auto,ascii,binary,hdf5]
 
 <problem>
 shock_dir     = 1       # Shock Direction -- (1,2,3) = (x1,x2,x3)
-xshock        = 0.0     # position of initial interface
+xshock1       = 0.0     # position of initial interface
+xshock2       = 0.5     # start of bump
+xshock3       = 1.0     # end of bump
 compute_error = 0       # set value to one to compute L1 error
 
 dl = 1.0                # density on left
@@ -64,12 +66,6 @@ pl = 1.0                # pressure
 ul = 0.0                # X-velocity
 vl = 0.0                # Y-velocity
 wl = 0.0                # Z-velocity
-
-db = 0.5                # density on left
-pb = 0.5                # pressure
-ub = 0.0                # X-velocity
-vb = 0.0                # Y-velocity
-wb = 0.0                # Z-velocity
 
 dr = 0.125              # density on right
 pr = 0.1                # pressure
