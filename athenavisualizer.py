@@ -5,6 +5,10 @@ Created on Mon Jan 31 22:45:42 2022
 
 @author: Sherry Wong
 """
+filedirectory = "/Users/bwong/URS_Athena_Cpp/SWONG_shock_tube_bump_HDF5"
+pwd = "/Users/bwong/URS_Athena_Cpp" 
+saveDirectory = pwd + "/gifs"
+
 import csv
 import sys
 import matplotlib as plt
@@ -12,62 +16,70 @@ import os
 from moviepy.editor import ImageSequenceClip
 import shutil
 
-pwd = os.getcwd()
-# if(len(sys.argv)==2):
-#     pwd = str(sys.argv[1])
-#     print(pwd)
-# else:
-#     raise Exception("Please provide a working directory containing the .tab files. Use the full directory path or something like $pwd")
-saveDirectory = pwd + "/TEMP"
-os.mkdir(saveDirectory)
-#DANGER!!! The line below removes the directory.
-shutil.rmtree(saveDirectory) #delete images to save space
+#import matplotlib.animation.MovieWriter
+import matplotlib.animation as ani
+import matplotlib.pyplot as plt
 
-#%% READ .tab
-#adapted from EnergyConservation.py
+sys.path.insert(0, pwd) #change working directory
+import athena_read as ath
 
-dataDict = {}
 
-pwd = "/Users/bwong/athena/SWONG_shock_tube_test1/"
-with open(pwd + 'Sod.block0.out1.00000.tab', 'r', newline='') as file:
-    r = csv.DictReader(file)
-    linenum=1 #skip first line
-    for row in r:
-        # print(row.keys())
-        for label in row: 
-            if(linenum==1): dataDict[label] = [] #init
-            dataDict[label].append(float(row[label]))
-        linenum+=1
-    print(str(linenum) + " lines read.")
-    print(dataDict.keys())
-#timeStamps = dataDict.pop('t')
 
-#for fileName in sorted(os.listdir(filedirectory)):
-#    if(fileName.endswith(".tab")):
-    
-    
-        
 #%%
-##########
-# Make Gif
-##########
-#https://www.tutorialexample.com/python-create-gif-with-images-using-moviepy-a-complete-guide-python-tutorial/
-#taken from Curl_Div_Gifs.py
+filename = "/Users/bwong/URS_Athena_Cpp/SWONG_shock_tube_bump_HDF5/Sod.out1.00000.athdf"
+data = ath.athdf(filename)
+print(data.keys())
+x = data['x1v']
+y = data['rho'][0][0]
+plt.plot(x, y)
 
-import moviepy
+#%%
 
-field = "div"
-images = []
-for fileName in os.listdir(saveDirectory + '/' + field): #set in initial parameters
-    if (fileName.endswith(".png")):#avoid file format errors, even hidden 
-        images.append(saveDirectory + '/' + field + '/' + fileName)
-#USE GLOB TO ORDER FILES
-images = sorted(images)
-print(images)
-clip = ImageSequenceClip(images, fps=15)
-# clip.write_gif(saveDirectory + '/' + field + '.gif') #saves in outside folder
-clip.write_videofile(saveDirectory + '/' + field + '.mp4') #save as .mp4
+xKey = 'x1v'
+yKey = 'rho'
+for i in range(0, 125):
+    inFile = (("%s/%s.out%1i.%05i.%s") % (pwd,"Sod",1,i,"athdf"))
+    data = ath.athdf(filename)
+    x = data[xKey]
+    y = data[yKey][0][0]
+    plt.plot(x, y)
 
-clip.close()
-#DANGER!!! The line below removes the directory.
-# shutil.rmtree(saveDirectory + '/' + field) #delete images to save space
+#%%
+#https://stackoverflow.com/questions/4092927/generating-movie-from-python-without-saving-individual-frames-to-files
+xKey = 'x1v'
+yKey = 'press'
+
+filename = "/Users/bwong/URS_Athena_Cpp/SWONG_shock_tube_bump_HDF5/Sod.out1.00000.athdf"
+data = ath.athdf(filename)
+print(data.keys())
+x = data['x1v']
+y = data['rho'][0][0]
+
+
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
+ax.set_aspect('equal')
+plt.tight_layout()
+
+im = ax.plot(x, y)
+
+
+def update_img(n):
+    plt.cla() #clear axes
+    ax.set_ylim([0, 2.5])
+    inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/SWONG_shock_tube_bump_HDF5","Sod",1,n,"athdf"))
+    data = ath.athdf(inFile)
+    x = data[xKey]
+    y = data[yKey][0][0]
+    im = ax.plot(x, y)
+    return im
+
+#legend(loc=0)
+TEMPani = ani.FuncAnimation(fig,update_img,125,interval=1)
+writer = ani.writers['ffmpeg'](fps=30)
+
+TEMPani.save(pwd + '/'+yKey+'.mp4',writer=writer,dpi=100)
+print("Saved as " + pwd + 'demo.mp4')
+#return ani
+
+#ani_frame()
