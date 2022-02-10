@@ -15,13 +15,13 @@
 
 // configure.py dict(definitions) string values:
 // problem generator
-#define PROBLEM_GENERATOR "orszag_tang"
+#define PROBLEM_GENERATOR "shock_tube_bump"
 
 // coordinate system
 #define COORDINATE_SYSTEM "cartesian"
 
 // Riemann solver
-#define RIEMANN_SOLVER "hlld"
+#define RIEMANN_SOLVER "hllc"
 
 // configure.py dict(definitions) Boolean values:
 // Equation of state
@@ -37,7 +37,7 @@
 #define NON_BAROTROPIC_EOS 1
 
 // include magnetic fields? default=0 (false)
-#define MAGNETIC_FIELDS_ENABLED 1
+#define MAGNETIC_FIELDS_ENABLED 0
 
 // include super-time-stepping? default=0 (false)
 #define STS_ENABLED 0
@@ -87,15 +87,15 @@
 
 // compiler options
 #define COMPILED_WITH "g++"
-#define COMPILER_COMMAND "h5c++"
-#define COMPILED_WITH_OPTIONS " -O3 -std=c++11 -I/home/sherbs/hdf5-1.12.0-linux-centos7-x86_64-static/include/ -I/usr/include/hdf5/serial/   -lhdf5" // NOLINT
+#define COMPILER_COMMAND "g++"
+#define COMPILED_WITH_OPTIONS " -I/opt/homebrew/Cellar/hdf5/1.12.1/include -O3 -std=c++11 -I/opt/homebrew/Cellar/hdf5/1.12.1  -L/opt/homebrew/Cellar/hdf5/1.12.1/lib  -lhdf5" // NOLINT
 
 //----------------------------------------------------------------------------------------
 // macros associated with numerical algorithm (rarely modified)
 
 #define NHYDRO 5
-#define NFIELD 3
-#define NWAVE 7
+#define NFIELD 0
+#define NWAVE 5
 #define NSCALARS 0
 #define NGHOST 2
 #define MAX_NSTAGE 6     // maximum number of stages per cycle for time-integrator

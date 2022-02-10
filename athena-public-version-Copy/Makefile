@@ -3,20 +3,20 @@
 
 # Files for conditional compilation
 
-PROBLEM_FILE = orszag_tang.cpp
+PROBLEM_FILE = shock_tube_bump.cpp
 COORDINATES_FILE = cartesian.cpp
-EOS_FILE = adiabatic_mhd.cpp
+EOS_FILE = adiabatic_hydro.cpp
 GENERAL_EOS_FILE = noop.cpp
-RSOLVER_FILE = hlld.cpp
-RSOLVER_DIR = mhd/
+RSOLVER_FILE = hllc.cpp
+RSOLVER_DIR = hydro/
 MPIFFT_FILE =  
 
 # General compiler specifications
 
-CXX := h5c++
-CPPFLAGS := 
-CXXFLAGS := -O3 -std=c++11 -I/home/sherbs/hdf5-1.12.0-linux-centos7-x86_64-static/include/ -I/usr/include/hdf5/serial/
-LDFLAGS := 
+CXX := g++
+CPPFLAGS :=  -I/opt/homebrew/Cellar/hdf5/1.12.1/include
+CXXFLAGS := -O3 -std=c++11 -I/opt/homebrew/Cellar/hdf5/1.12.1
+LDFLAGS :=  -L/opt/homebrew/Cellar/hdf5/1.12.1/lib
 LDLIBS :=  -lhdf5
 GCOV_CMD := gcov
 
