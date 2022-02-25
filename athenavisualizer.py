@@ -26,35 +26,36 @@ import athena_read as ath
 
 
 
-#%%
+#%% load file
 filename = "/Users/bwong/URS_Athena_Cpp/SWONG_shock_tube_bump_HDF5_res512/Sod.out1.00000.athdf"
 data = ath.athdf(filename)
 print(data.keys())
+
+#%% Plot single field
 x = data['x1v']
 y = data['rho'][0][0]
 plt.plot(x, y)
 plt.title("Density (computational units)")
 plt.xlabel("density")
 plt.ylabel("x position")
-
-#%%
-
-xKey = 'x1v'
-yKey = 'rho'
-for i in range(0, 125):
-    inFile = (("%s/%s.out%1i.%05i.%s") % (pwd,"Sod",1,i,"athdf"))
-    data = ath.athdf(filename)
-    x = data[xKey]
-    y = data[yKey][0][0]
-    plt.plot(x, y)
+    
+#inFile = (("%s/%s.out%1i.%05i.%s") % (pwd,"Sod",1,i,"athdf"))
+#Format string (THIS IS C VALUE DELIMITING)
 
 #%% BIIG plotting
 #https://stackoverflow.com/questions/4092927/generating-movie-from-python-without-saving-individual-frames-to-files
+# xKey = 'x1v'
+# yKey = 'combo'
+# trim = None
+# maxT = 125 #default 125
+
+#add custom field(s)
+#data['temp'] = data["press"][0][0]/data["rho"][0][0]
+
 xKey = 'x1v'
-#xKey = 'x1v x=x[0:256]'
 yKey = 'combo'
 trim = [0, 256] #trim by index
-maxT = 125
+maxT = 125 #default 125
 
 data = ath.athdf(filename)
 print(data.keys())
@@ -73,19 +74,19 @@ plt.tight_layout()
 im = ax.plot(x, y)
 
 def update_img(n):
-    time = 0
-    plt.cla() #clear axesx
+    plt.cla() #clear axes
     ax.set_ylim([0, 2.5])
-    inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/SWONG_shock_tube_bump_HDF5_res512","Sod",1,n,"athdf"))
+    #inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/SWONG_shock_tube_bump_HDF5_res512","Sod",1,n,"athdf"))
+    inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/LowPres_res512","Sod",1,n,"athdf"))
+
     data = ath.athdf(inFile)
-    
+
     #plot y fields
     if yKey == "combo":
         for yKey2 in ['rho', 'press', 'vel1']:
             y = data[yKey2][0][0]
             if trim!= None: y=y[trim[0]:trim[1]]
             im = ax.plot(x, y, label=yKey2)
-        #plot just temp, special
         y = data["press"][0][0]/data["rho"][0][0]
         if trim!= None: y=y[trim[0]:trim[1]]
         im = ax.plot(x, y, label="temp")
@@ -102,7 +103,6 @@ def update_img(n):
         ax.set_ylabel(yKey)
     ax.set_title(yKey + "(computational units) t=" + str(n))
     ax.set_xlabel("x position (cm)")
-    time+=1;
     return im
 
 #legend(loc=0)
@@ -138,6 +138,8 @@ fileStrings = [
     "res256",
     "res128"]
 
+#if you have a LOT of diferent resolutoins
+
 data = ath.athdf(filename)
 print(data.keys())
 x = data['x1v']
@@ -158,7 +160,7 @@ def update_img(n):
         data = ath.athdf(inFile)
         x = data[xKey]
         y = data['rho'][0][0]
-        im = ax.plot(x, y, ".", label=string)
+        im = ax.plot(x, y, label=string)
     ax.legend()
     ax.set_title(yKey + "(computational units)")
     ax.set_xlabel("x position (cm)")
@@ -169,8 +171,9 @@ def update_img(n):
 TEMPani = ani.FuncAnimation(fig,update_img,125,interval=1)
 writer = ani.writers['ffmpeg'](fps=30)
 
-TEMPani.save(pwd + '/' + yKey+'_Convergence2.mp4',writer=writer,dpi=250)
-print("Saved as " + pwd + '/' + yKey+'.mp4')
+saveFile = pwd + '/' + yKey+'_Convergence1.mp4'
+TEMPani.save(saveFile,writer=writer,dpi=100)
+print("Saved as " + saveFile)
 #return ani
 
 #ani_frame()
