@@ -90,7 +90,6 @@ def update_img(n):
         y = data["press"][0][0]/data["rho"][0][0]
         if trim!= None: y=y[trim[0]:trim[1]]
         im = ax.plot(x, y, label="temp")
-        ax.legend()
     elif yKey == "temp":
         y = data["press"][0][0]/data["rho"][0][0]
         if trim!= None: y=y[trim[0]:trim[1]]
@@ -101,6 +100,7 @@ def update_img(n):
         if trim!= None: y=y[trim[0]:trim[1]]
         im = ax.plot(x, y)
         ax.set_ylabel(yKey)
+    ax.legend()
     ax.set_title(yKey + "(computational units) t=" + str(n))
     ax.set_xlabel("x position (cm)")
     return im
@@ -116,14 +116,11 @@ print("Saved as " + saveFile)
 
 #ani_frame()
 
-#%%
-###################
-# CONVERGENCE STUDY
-###################
+#%% CONVERGENCE STUDY
 
 #https://stackoverflow.com/questions/4092927/generating-movie-from-python-without-saving-individual-frames-to-files
 xKey = 'x1v'
-yKey = 'combo'
+yKey = 'press'
 # fileStrings = [
 #     "res128", 
 #     "res256",
@@ -143,8 +140,7 @@ fileStrings = [
 data = ath.athdf(filename)
 print(data.keys())
 x = data['x1v']
-y = data['rho'][0][0]
-
+y = data['press'][0][0]
 
 fig = plt.figure(1)
 ax = fig.add_subplot(111)
@@ -159,10 +155,16 @@ def update_img(n):
         inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/SWONG_shock_tube_bump_HDF5_"+string,"Sod",1,n,"athdf"))
         data = ath.athdf(inFile)
         x = data[xKey]
-        y = data['rho'][0][0]
+        if(yKey=="temp"):
+            data['temp'] = data["press"][0][0]/data["rho"][0][0]
+            y = data[yKey]
+        else:
+            y = data[yKey][0][0]
         im = ax.plot(x, y, label=string)
+    ax.set_ylim(0.0, 0.6)
+    ax.set_xlim(0.6, 1.2)
     ax.legend()
-    ax.set_title(yKey + "(computational units)")
+    ax.set_title(yKey + "(computational units)" + str(n))
     ax.set_xlabel("x position (cm)")
     ax.hlines(1.4, max(data[xKey]), min(data[xKey]), linestyles='dashed')
     return im
@@ -178,3 +180,69 @@ print("Saved as " + saveFile)
 
 #ani_frame()
 
+#%% Custom Plotting Fcn
+
+xKey2 = 'x1v'
+yKey2 = 'combo'
+trim = [0, 256] #trim by index
+maxT = 125 #default 125
+
+data = ath.athdf(filename)
+print(data.keys())
+x = data['x1v']
+y = data['rho'][0][0]
+
+#do this only once for time efficiency
+#x = None
+x = data[xKey2]
+if trim!= None: x, y = x[trim[0]:trim[1]], y[trim[0]:trim[1]]
+
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
+ax.set_aspect('equal')
+plt.tight_layout()
+im = ax.plot(x, y)
+
+def custom_plot(n, *fargs):
+    print(fargs[0])
+    print(fargs[1])
+    xKey = fargs[0]
+    yKeys = fargs[1]
+    plt.cla() #clear axes
+    ax.set_ylim([0, 2.5])
+    #inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/SWONG_shock_tube_bump_HDF5_res512","Sod",1,n,"athdf"))
+    inFile = (("%s/%s.out%1i.%05i.%s") % (pwd+"/LowPres_res512","Sod",1,n,"athdf"))
+
+    data = ath.athdf(inFile)
+
+    #plot y fields
+    for yKey in yKeys:
+        if yKey == "temp":
+            y = data["press"][0][0]/data["rho"][0][0]
+            if trim!= None: y=y[trim[0]:trim[1]]
+            im = ax.plot(x, y)
+            ax.set_ylabel(yKey)
+        else:
+            y = data[yKey][0][0]
+            if trim!= None: y=y[trim[0]:trim[1]]
+            im = ax.plot(x, y)
+            ax.set_ylabel(yKey)
+    ax.legend()
+    ax.set_title(yKey + "(computational units) t=" + str(n))
+    ax.set_xlabel("x position (cm)")
+    return im
+
+#%%
+#legend(loc=0)
+TEMPani = ani.FuncAnimation(fig, custom_plot, maxT, interval=1, fargs=(xKey2, ['rho', 'press', 'vel1', 'temp']))
+writer = ani.writers['ffmpeg'](fps=30)
+
+saveFile = pwd + '/' + yKey+'_res512.mp4'
+TEMPani.save(saveFile,writer=writer,dpi=100)
+print("Saved as " + saveFile)
+#return ani
+
+#ani_frame()
+
+#%%
+custom_plot(30, ('x1v', ['rho', 'press', 'vel1', 'temp']))
