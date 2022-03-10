@@ -419,6 +419,12 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
               phydro->u(IM1,k,j,i) = wr[IVX]*wr[IDN];
               phydro->u(IM2,k,j,i) = wr[IVY]*wr[IDN];
               phydro->u(IM3,k,j,i) = wr[IVZ]*wr[IDN];
+
+              // Setup scalar tracker for flux tubes
+              if ((NSCALARS > 0) ) {
+                pscalars->s(0,k,j,i) = sin(pcoord->x1v(i));
+              }
+
               if (NON_BAROTROPIC_EOS) {
                 if (GENERAL_EOS) {
                   phydro->u(IEN,k,j,i) = peos->EgasFromRhoP(wr[IDN], wr[IPR]);
@@ -600,16 +606,16 @@ void MeshBlock::ProblemGenerator(ParameterInput *pin) {
   // uniformly fill all scalars to have equal concentration
   // mass fraction? or concentration?
   constexpr int scalar_norm = NSCALARS > 0 ? NSCALARS : 1.0;
-  if (NSCALARS > 0) {
-    for (int n=0; n<NSCALARS; ++n) {
-      for (int k=ks; k<=ke; ++k) {
-        for (int j=js; j<=je; ++j) {
-          for (int i=is; i<=ie; ++i) {
-            pscalars->s(n,k,j,i) = 1.0/scalar_norm*phydro->u(IDN,k,j,i);
-          }
-        }
-      }
-    }
-  }
+  // if (NSCALARS > 0) {
+  //   for (int n=0; n<NSCALARS; ++n) {
+  //     for (int k=ks; k<=ke; ++k) {
+  //       for (int j=js; j<=je; ++j) {
+  //         for (int i=is; i<=ie; ++i) {
+  //           pscalars->s(n,k,j,i) = 1.0/scalar_norm*phydro->u(IDN,k,j,i);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   return;
 }
