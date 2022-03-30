@@ -96,7 +96,7 @@
 #define NHYDRO 5
 #define NFIELD 0
 #define NWAVE 5
-#define NSCALARS 0
+#define NSCALARS 1
 #define NGHOST 2
 #define MAX_NSTAGE 6     // maximum number of stages per cycle for time-integrator
 #define MAX_NREGISTER 3  // maximum number of (u, b) register pairs for time-integrator
